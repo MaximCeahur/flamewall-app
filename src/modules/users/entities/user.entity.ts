@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { UserRankEnum } from './user-rank.enum';
 
 @Entity('user')
 export class User {
@@ -20,12 +21,12 @@ export class User {
   @Column({ type: 'varchar', length: 40 })
   pfp_url: string;
 
-  @Column({ type: 'varchar', length: 40 })
-  banner_url: string;
-
   @Column({ type: 'enum', enum: UserRankEnum })
   rank: UserRankEnum;
 
   @Column({ type: 'varchar', length: 100 })
   minecraft_skin_url: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  password: string;
 }

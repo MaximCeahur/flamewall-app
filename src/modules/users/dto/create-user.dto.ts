@@ -5,14 +5,6 @@ import { UserRankEnum } from '../entities/user-rank.enum'
 
 @Exclude()
 export class CreateUserDto {
-    @Expose()
-    @ApiProperty(
-        {
-            description: "user id",
-            example: 1
-        }
-    )
-    id: number
 
     @Expose()
     @ApiProperty(
@@ -59,15 +51,6 @@ export class CreateUserDto {
     )
     @IsUrl({}, { message: 'Profile picture must be a valid URL' }) // Валидация URL
     pfp_url: string
-
-    @Expose()
-    @ApiProperty(
-        {
-            description: "user rank",
-            example: "default"
-        }
-    )
-    rank: UserRankEnum.DEFAULT
 
     @Expose()
     @ApiProperty(

@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common'
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ReadUserDto } from './dto/read-user.dto';
+import { ApiOperation, ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -13,13 +15,19 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @ApiOperation ({ summary: 'Get all users' })
+  @ApiOkResponse ({ status: 201, description: "Users received successfully", type: ReadUserDto })
+  async findAll(): Promise<ReadUserDto[]> {
+    const users = await this.usersService.findAll();
+    return users.map(user => new ReadUserDto(user)); // Преобразуем в DTO
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @ApiOperation ({ summary: 'Get user by id' })
+  @ApiOkResponse ({ status: 201, description: "Users received successfully", type: ReadUserDto })
+  async findOne(@Param('id') id: string): Promise<ReadUserDto> {
+    const user = await this.usersService.findOne(+id);
+    return new ReadUserDto(user);  // Преобразуем в DTO
   }
 
   @Put(':id')

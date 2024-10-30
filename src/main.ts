@@ -12,6 +12,7 @@ async function bootstrap() {
   .setTitle('Users Api')
   .setDescription('The cats API description')
   .setVersion('1.0')
+  .addBearerAuth() // Включаем Bearer токены для Swagger
   .addTag('Users')
   .build();
 const document = SwaggerModule.createDocument(app, config);

@@ -3,12 +3,13 @@ import { Controller, Post, Body, Get, Req, UnauthorizedException, UseGuards } fr
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { RequestWithUser } from '../../common/interfaces/request-with-user.interface';
 import { UsersService } from '../users/users.service';
 
 @ApiTags('Auth')
+@ApiBearerAuth() // Указывает, что для всех эндпоинтов в этом контроллере требуется JWT
 @Controller('auth')
 export class AuthController {
   constructor(

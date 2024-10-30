@@ -38,4 +38,12 @@ export class UsersService {
     await this.findOne(id); // Проверка на существование
     await this.usersRepository.delete(id);
   }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { email } });
+}
+
+async findById(userId: number): Promise<User | undefined> {
+  return await this.usersRepository.findOne({ where: { user_id: userId } });
+}
 }

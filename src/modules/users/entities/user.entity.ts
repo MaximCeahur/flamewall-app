@@ -9,6 +9,9 @@ export class User {
   @Column({ type: 'varchar', length: 20 })
   username: string;
 
+  @Column({ type: 'varchar', length: 40, unique: true })
+  email: string;
+
   @Column({ type: 'varchar', length: 20 })
   minecraft_username: string;
 

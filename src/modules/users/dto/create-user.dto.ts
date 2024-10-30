@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, } from '@nestjs/swagger'
 import { Exclude, Expose } from 'class-transformer'
-import { IsUrl } from 'class-validator'
+import { IsOptional, IsUrl } from 'class-validator'
 import { UserRankEnum } from '../entities/user-rank.enum'
+import { User } from '../entities/user.entity'
 
 @Exclude()
 export class CreateUserDto {
@@ -14,6 +15,15 @@ export class CreateUserDto {
         }
     )
     username: string
+
+    @Expose()
+    @ApiProperty(
+        {
+            description: "user email",
+            example: "email@example.com"
+        }
+    )
+    email: string
 
     @Expose()
     @ApiProperty(
@@ -70,4 +80,12 @@ export class CreateUserDto {
         }
     )
     password: string
+    @Expose()
+    @ApiProperty(
+        {
+            description: "user password",
+            example: "default"
+        }
+    )
+    rank: UserRankEnum
 }

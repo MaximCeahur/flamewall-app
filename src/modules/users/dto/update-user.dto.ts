@@ -18,6 +18,15 @@ export class UpdateUserDto {
     @Expose()
     @ApiProperty(
         {
+            description: "user email",
+            example: "email@example.com"
+        }
+    )
+    email: string
+
+    @Expose()
+    @ApiProperty(
+        {
             description: "user description",
             example: "The description"
         }

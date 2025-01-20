@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Post } from 'src/modules/posts/entities/post.entity';
 import { UserRankEnum } from './user-rank.enum';
 
 @Entity('user')
@@ -32,4 +33,7 @@ export class User {
 
   @Column({ type: 'varchar', length: 100 })
   password: string;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];  // Связь с постами
 }

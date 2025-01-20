@@ -1,21 +1,29 @@
-// src/auth/jwt.strategy.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { ConfigService } from '@nestjs/config';
+import { ExtractJwt } from 'passport-jwt';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/modules/users/users.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private configService: ConfigService) {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Получаем токен из заголовка
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET'),
+      secretOrKey: process.env.JWT_SECRET, // Используйте свой секрет
     });
   }
 
   async validate(payload: any) {
-    // Возвращаем данные для гварда, чтобы идентифицировать пользователя
-    return { userId: payload.userId, email: payload.email };
+    // Проверка пользователя по ID, который пришел в токене
+    const user = await this.usersService.findOne(payload.userId);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return user; // Возвращает объект пользователя, который будет доступен в req.user
   }
 }

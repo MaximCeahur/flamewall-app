@@ -10,10 +10,11 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .setTitle('Users Api')
-  .setDescription('The cats API description')
+  .setDescription('FlameWall API')
   .setVersion('1.0')
   .addBearerAuth() // Включаем Bearer токены для Swagger
   .addTag('Users')
+  .addTag('Posts')
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);

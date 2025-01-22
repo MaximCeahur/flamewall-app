@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { UserRankEnum } from './user-rank.enum';
+import { Comment } from 'src/modules/comments/entities/comment.entity';
 
 @Entity('user')
 export class User {
@@ -36,4 +37,7 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];  // Связь с постами
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[]; // Связь пользователя с его комментариями
 }

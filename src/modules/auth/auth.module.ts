@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PostsModule } from '../posts/posts.module';
+import { CommentsModule } from '../comments/comments.module';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { PostsModule } from '../posts/posts.module';
     UsersModule,
     PassportModule,
     PostsModule,
+    CommentsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

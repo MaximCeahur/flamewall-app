@@ -12,6 +12,10 @@ import { plainToClass } from 'class-transformer';
 import { CreateAuthorizedPostDto } from '../posts/dto/create-post.dto';
 import { ReadPostDto } from '../posts/dto/read-post.dto';
 import { PostsService } from '../posts/posts.service';
+import { CommentsService } from '../comments/comments.service';
+import { ReadCommentDto } from '../comments/dto/read-comment.dto';
+import { CreateCommentDto } from '../comments/dto/create-comment.dto';
+import { CreateAuthorizedCommentDto } from '../comments/dto/create-comment.dto';
 
 @ApiTags('Auth')
 @ApiBearerAuth() // Указывает, что для всех эндпоинтов в этом контроллере требуется JWT
@@ -21,6 +25,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly postService: PostsService,
+    private readonly commentsService: CommentsService,
   ) {}
 
   @Post('register')

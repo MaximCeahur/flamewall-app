@@ -6,6 +6,8 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { Post } from './modules/posts/entities/post.entity';
 import { PostsModule } from './modules/posts/posts.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { Comment } from './modules/comments/entities/comment.entity';
 
 @Module({
   imports: [
@@ -21,13 +23,14 @@ import { PostsModule } from './modules/posts/posts.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Post],
+        entities: [User, Post, Comment],
         synchronize: true,
       }),
     }),
     AuthModule,
     UsersModule,
-    PostsModule
+    PostsModule,
+    CommentsModule
   ],
 })
 export class AppModule {}

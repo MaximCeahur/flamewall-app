@@ -90,4 +90,25 @@ export class AuthController {
     // Возвращаем DTO с постом
     return new ReadPostDto(post);
   }
+  
+  @UseGuards(JwtAuthGuard)
+@Post('comment')
+async createComment(
+  @Body() createCommentDto: CreateAuthorizedCommentDto,
+  @Req() req: RequestWithUser
+): Promise<ReadCommentDto> {
+  // Извлекаем userId из авторизованного пользователя
+  const userId = req.user?.user_id;
+
+  if (!userId) {
+    throw new UnauthorizedException('Пользователь не авторизован');
+  }
+
+  // Создаем комментарий, используя userId
+  const comment = await this.commentsService.createAuthorizedComment(createCommentDto, userId);
+
+  // Возвращаем созданный комментарий в виде DTO
+  return new ReadCommentDto(comment);
+}
+
 }

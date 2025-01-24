@@ -24,11 +24,10 @@ import {
     updated_at: Date;
   
     // Связь с пользователем
-    @ManyToOne(() => User, (user) => user.comments, { eager: false }) // Убедитесь, что это определено
+    @ManyToOne(() => User, (user) => user.comments, { eager: true })
     user: User;
-    
-    // Связь с постом
-    @ManyToOne(() => Post, (post) => post.comments, { onDelete: 'CASCADE' })
-    post: Post;
+  
+    @ManyToOne(() => Post, (post) => post.comments, { eager: true })
+    post: Post; // Связь с постом
   }
   

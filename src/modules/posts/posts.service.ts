@@ -6,6 +6,7 @@ import { CreatePublicPostDto, CreateAuthorizedPostDto } from './dto/create-post.
 import { UpdatePostDto } from './dto/update-post.dto';
 import { User } from 'src/modules/users/entities/user.entity'; // Import User entity
 import { UnauthorizedException } from '@nestjs/common';
+import { Comment } from '../comments/entities/comment.entity';
 
 @Injectable()
 export class PostsService {
@@ -50,7 +51,7 @@ export class PostsService {
   // Get all posts
   async findAll(): Promise<Post[]> {
     return this.postsRepository.find({
-      relations: ['user'],  // Ensure user relation is loaded
+      relations: ['user', 'comments'],  // Ensure user relation is loaded
     });
   }
 
@@ -59,7 +60,7 @@ export class PostsService {
     const postId = parseInt(id, 10); // Convert string ID to number
     const post = await this.postsRepository.findOne({
       where: { post_id: postId }, // Use the correct field name for post ID
-      relations: ['user'],  // Ensure user is loaded with the post
+      relations: ['user', 'comments'],  // Ensure user is loaded with the post
     });
 
     if (!post) {

@@ -6,6 +6,8 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Comment } from './entities/comment.entity';
 import { Post } from '../posts/entities/post.entity';
 import { User } from '../users/entities/user.entity';
+import { CreateAuthorizedCommentDto } from './dto/create-comment.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class CommentsService {
@@ -17,7 +19,10 @@ export class CommentsService {
     private userRepository: Repository<User>,  // Внедрение репозитория пользователя
     
     @InjectRepository(Post)
-    private postRepository: Repository<Post>   // Внедрение репозитория поста
+    private postRepository: Repository<Post> ,  // Внедрение репозитория поста
+
+    @InjectRepository(Comment) private readonly commentsRepository: Repository<Comment>,
+    private readonly usersService: UsersService, // Внедрение UsersService
     
   ) {}
 
@@ -84,4 +89,28 @@ export class CommentsService {
 
     return { message: `Comment with ID ${id} has been deleted` };
   }
+
+  async createAuthorizedComment(createCommentDto: CreateAuthorizedCommentDto, userId: number) {
+    const { content, postId } = createCommentDto; // Деструктурируем content и postId из DTO
+  
+    // Найдите пост в базе данных
+    const post = await this.postRepository.findOne({
+      where: { post_id: postId }, // Укажите поле, по которому выполняется поиск
+    });
+    
+  
+    if (!post) {
+      throw new NotFoundException('Пост не найден');
+    }
+  
+    // Создайте комментарий с привязкой к посту
+    const comment = this.commentsRepository.create({
+      content, // Теперь content доступен
+      user: { user_id: userId }, // Привязка к пользователю
+      post: post,               // Привязка к посту
+    });
+  
+    return await this.commentsRepository.save(comment);
+  }
+  
 }

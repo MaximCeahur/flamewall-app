@@ -8,6 +8,8 @@ import { Post } from './modules/posts/entities/post.entity';
 import { PostsModule } from './modules/posts/posts.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { Comment } from './modules/comments/entities/comment.entity';
+import { FriendsModule } from './friends/friends.module';
+import { FriendRequest } from './friends/entities/friend.entity';
 
 @Module({
   imports: [
@@ -23,14 +25,15 @@ import { Comment } from './modules/comments/entities/comment.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Post, Comment],
+        entities: [User, Post, Comment, FriendRequest],
         synchronize: true,
       }),
     }),
     AuthModule,
     UsersModule,
     PostsModule,
-    CommentsModule
+    CommentsModule,
+    FriendsModule
   ],
 })
 export class AppModule {}

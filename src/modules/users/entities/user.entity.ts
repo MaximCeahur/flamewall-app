@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { UserRankEnum } from './user-rank.enum';
 import { Comment } from 'src/modules/comments/entities/comment.entity';
+import { FriendRequest } from 'src/friends/entities/friend.entity';
 
 @Entity('user')
 export class User {
@@ -36,8 +37,13 @@ export class User {
   password: string;
 
   @OneToMany(() => Post, (post) => post.user)
-  posts: Post[];  // Связь с постами
-
+  posts: Post[]; 
   @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[]; // Связь пользователя с его комментариями
+  comments: Comment[]; 
+
+  @OneToMany(() => FriendRequest, (friendRequest) => friendRequest.requester)
+  sentFriendRequests: FriendRequest[];
+
+  @OneToMany(() => FriendRequest, (friendRequest) => friendRequest.receiver)
+  receivedFriendRequests: FriendRequest[];
 }
